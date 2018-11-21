@@ -1,0 +1,131 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,sans-serif;
+  font-size: 13px;
+  width: 700px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+body>div {
+  flex: 1;
+  overflow: auto;
+}
+#search {
+  padding: 10px;
+}
+#search form {
+  position: relative;
+}
+#search input,
+#search select {
+  outline: none;
+}
+#search input[type=search] {
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  height: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px 0 8px;
+}
+#search input[type=search]:focus {
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+#search input[type=submit] {
+  background: url('search.svg') center center no-repeat;
+  background-size: 24px;
+  border: none;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+#search input[type=submit]:active {
+  opacity: 0.5;
+}
+
+body[data-mode=busy] #search input[type=submit] {
+  background-image: url('loader.gif');
+}
+
+#search>div {
+  padding: 10px;
+  display: flex;
+}
+#search>div [flex="1"] {
+  flex: 1;
+}
+#search [data-id="category"] {
+  width: 60px;
+}
+#results {
+  border-collapse: collapse;
+}
+tbody::before {
+  line-height: 32px;
+  padding-left: 10px;
+}
+body[data-mode=ready] #results tbody::before {
+  content: 'Ready!';
+}
+body[data-mode=busy] #results tbody::before {
+  content: 'Searching ...';
+}
+body[data-mode=empty] #results tbody::before {
+  content: 'No results';
+  color: #5d5d5d;
+  font-style: italic;
+}
+#results tr {
+  background: #F6F1EE;
+}
+#results tr:nth-child(even) {
+  background: #F6F1EE;
+}
+#results th {
+  font-size: 12px;
+}
+#results th,
+#results td {
+  padding: 3px;
+  border: 1px solid #fff;
+}
+#results thead th {
+  background-color: #D2B9A6;
+}
+#results td:nth-child(2) {
+  text-align: center;
+}
+#results a {
+  color: #009;
+  text-decoration: none;
+}
+#results div {
+  display: flex;
+  align-items: center;
+}
+#results p {
+  margin: 5px 0;
+  color: #4e5456;
+  display: inline-block;
+}
+#results a {
+  text-decoration: none;
+}
+#results a:hover {
+  text-decoration: underline;
+}
+#results th a,
+#results p a {
+  color: inherit;
+}
+footer {
+  padding: 5px 10px;
+  border-top: solid 1px #e8e8e8;
+}

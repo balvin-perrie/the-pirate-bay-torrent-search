@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <base href="">
+</head>
+<body>
+  <header id="search">
+    <form>
+      <input type="search" required autofocus placeholder="search query" autocomplete id="searchbox">
+      <input type="submit" value="">
+    </form>
+    <div>
+      <div flex="1">
+        <label><input type="checkbox" name="category" value="audio" data-id="audio"> Audio</label>
+        <label><input type="checkbox" name="category" value="video" data-id="video"> Video</label>
+        <label><input type="checkbox" name="category" value="applications" data-id="applications"> Applications</label>
+        <label><input type="checkbox" name="category" value="games" data-id="games"> Games</label>
+        <label><input type="checkbox" name="category" value="other" data-id="other"> Other</label>
+
+        <select data-id="category">
+          <option value="0">All</option>
+          <optgroup label="Audio">
+            <option value="101">Music</option>
+            <option value="102">Audio books</option>
+            <option value="103">Sound clips</option>
+            <option value="104">FLAC</option>
+            <option value="199">Other</option>
+          </optgroup>
+          <optgroup label="Video">
+            <option value="201">Movies</option>
+            <option value="202">Movies DVDR</option>
+            <option value="203">Music videos</option>
+            <option value="204">Movie clips</option>
+            <option value="205">TV shows</option>
+            <option value="206">Handheld</option>
+            <option value="207">HD - Movies</option>
+            <option value="208">HD - TV shows</option>
+            <option value="209">3D</option>
+            <option value="299">Other</option>
+          </optgroup>
+          <optgroup label="Applications">
+            <option value="301">Windows</option>
+            <option value="302">Mac</option>
+            <option value="303">UNIX</option>
+            <option value="304">Handheld</option>
+            <option value="305">IOS (iPad/iPhone)</option>
+            <option value="306">Android</option>
+            <option value="399">Other OS</option>
+          </optgroup>
+          <optgroup label="Games">
+            <option value="401">PC</option>
+            <option value="402">Mac</option>
+            <option value="403">PSx</option>
+            <option value="404">XBOX360</option>
+            <option value="405">Wii</option>
+            <option value="406">Handheld</option>
+            <option value="407">IOS (iPad/iPhone)</option>
+            <option value="408">Android</option>
+            <option value="499">Other</option>
+          </optgroup>
+          <optgroup label="Porn">
+            <option value="501">Movies</option>
+            <option value="502">Movies DVDR</option>
+            <option value="503">Pictures</option>
+            <option value="504">Games</option>
+            <option value="505">HD - Movies</option>
+            <option value="506">Movie clips</option>
+            <option value="599">Other</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="601">E-books</option>
+            <option value="602">Comics</option>
+            <option value="603">Pictures</option>
+            <option value="604">Covers</option>
+            <option value="605">Physibles</option>
+            <option value="699">Other</option>
+          </optgroup>
+        </select>
+      </div>
+      <div>
+        <select data-id="order">
+          <option value="name">Name</option>
+          <option value="date">Date</option>
+          <option value="size">Size</option>
+          <option value="seeds" selected>Seeds</option>
+          <option value="leeches">Leeches</option>
+        </select>
+        <select data-id="sort">
+          <option value="desc">Desc</option>
+          <option value="asc">Asc</option>
+        </select>
+      </div>
+    </div>
+  </header>
+  <div>
+    <table width=100% id="results">
+      <template>
+        <tr>
+          <td>
+            <div><a href="#" data-id="title" target=_blank></a></div>
+            <div>
+              <p>
+                Uploaded&nbsp;<span data-id="date">-</span>, Size&nbsp;<span data-id="size">-</span>, ULed by&nbsp;<a href="#" data-id="by" target=_blank></a>
+              </p>
+            </div>
+          </td>
+          <td>
+            <a href="#" data-id="magnet" target=_blank>Download</a>
+          </td>
+          <td data-id="se" align="right">0</td>
+          <td data-id="le" align="right">0</td>
+        </tr>
+      </template>
+      <colgroup>
+        <col>
+        <col width=80>
+        <col width=32>
+        <col width=32>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Magnet</th>
+          <th>SE</th>
+          <th>LE</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <footer>...</footer>
+  <script src="../api.js"></script>
+  <script src="index.js"></script>
+  <script defer src="persist.js"></script>
+</body>
+</html>
