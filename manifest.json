@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search The Pirate Bay in a popup window using an active proxybay",
   "homepage_url": "http://add0n.com/torrent-search.html",
@@ -8,6 +8,7 @@
     "storage",
     "*://proxybay.bz/*",
     "*://proxybay.live/*",
+    "*://proxybay.bet/*",
     "*://proxybay.space/*",
     "*://pirateproxy.gdn/",
     "*://tpbproxy.online/",
