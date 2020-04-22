@@ -1,28 +1,12 @@
 {
   "manifest_version": 2,
-  "version": "0.1.2",
+  "version": "0.1.8",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search The Pirate Bay in a popup window using an active proxybay",
-  "homepage_url": "http://add0n.com/torrent-search.html",
+  "homepage_url": "https://add0n.com/torrent-search.html",
   "permissions": [
     "storage",
-    "*://proxybay.bz/*",
-    "*://proxybay.live/*",
-    "*://proxybay.bet/*",
-    "*://proxybay.space/*",
-    "*://pirateproxy.gdn/",
-    "*://tpbproxy.online/",
-    "*://thepiratebay.vip/",
-    "*://thepiratebay.vin/",
-    "*://theproxybay.net/",
-    "*://thepiratebay-org.prox.icu/",
-    "*://thepiratebay.online/",
-    "*://thepiratebay.myunblock.com/",
-    "*://thepiratebay.berhampore-gateway.ml/",
-    "*://ikwilthepiratebay.org/",
-    "*://piratebayblocked.com/",
-    "*://pirateproxy.rocks/",
-    "*://thepiratebay.unblockthe.net/"
+    "*://*/*"
   ],
   "icons": {
      "16": "data/icons/16.png",
