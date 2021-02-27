@@ -1,6 +1,15 @@
 /* globals Engine */
 'use strict';
 
+const toast = msg => {
+  const e = document.getElementById('toast');
+  e.textContent = msg;
+  clearTimeout(toast.id);
+  toast.id = setTimeout(() => {
+    e.textContent = '';
+  }, 1000);
+};
+
 const search = {};
 search.engine = new Engine();
 
@@ -103,3 +112,12 @@ document.querySelector('#search input[type=search]').addEventListener('search', 
   }
 });
 document.body.dataset.mode = 'ready';
+
+document.addEventListener('click', e => {
+  const {target} = e;
+  if (target && target.dataset.id === 'magnet') {
+    navigator.clipboard.writeText(target.href);
+    e.preventDefault();
+    toast('Magnet link is copied to the clipboard');
+  }
+});
