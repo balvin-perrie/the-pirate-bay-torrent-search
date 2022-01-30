@@ -3,7 +3,7 @@
 const Engine = function() {
   this.events = {};
   this.config = {
-    proxy: 'https://proxybay.bz/'
+    proxy: 'https://proxybay.github.io/'
   };
   this.orderBy = {
     name: {

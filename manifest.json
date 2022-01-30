@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search for torrents using the official \"The Pirate Bay\" engine on a live ProxyBay mirror without visiting its page.",
   "homepage_url": "https://add0n.com/torrent-search.html",
@@ -20,15 +20,14 @@
      "512": "data/icons/512.png"
   },
   "action": {
-    "default_popup": "data/popup/index.html",
-    "default_icon": {
-       "16": "data/icons/16.png",
-       "32": "data/icons/32.png",
-       "48": "data/icons/48.png",
-       "64": "data/icons/64.png"
-    }
+    "default_popup": "data/popup/index.html"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "worker.js"
+  },
+  "commands": {
+    "_execute_action": {
+      "description": "Press the action button"
+    }
   }
 }
