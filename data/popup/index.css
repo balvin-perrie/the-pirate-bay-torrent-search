@@ -1,5 +1,5 @@
 body {
-  font-family: "Helvetica Neue",Helvetica,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
   font-size: 13px;
   width: 700px;
   max-height: 600px;
@@ -7,7 +7,7 @@ body {
   flex-direction: column;
   margin: 0;
 }
-body>div {
+body > div {
   flex: 1;
   overflow: auto;
 }
@@ -15,7 +15,11 @@ body>div {
   padding: 10px;
 }
 #search form {
-  position: relative;
+  display: flex;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+#search form:focus-within {
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 #search input,
 #search select {
@@ -24,14 +28,10 @@ body>div {
 #search input[type=search] {
   border-radius: 2px;
   border: none;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
   height: 32px;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 40px 0 8px;
-}
-#search input[type=search]:focus {
-  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+  padding: 0 8px;
 }
 
 #search input[type=submit] {
@@ -41,24 +41,34 @@ body>div {
   padding: 0;
   width: 32px;
   height: 32px;
-  position: absolute;
-  right: 0;
-  top: 0;
   cursor: pointer;
 }
 #search input[type=submit]:active {
   opacity: 0.5;
+}
+#rate {
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+#rate[data-hide=true] {
+  display: none;
+}
+#tools {
+  white-space: nowrap;
+  display: flex;
 }
 
 body[data-mode=busy] #search input[type=submit] {
   background-image: url('loader.gif');
 }
 
-#search>div {
+#search > div {
   padding: 10px;
   display: flex;
 }
-#search>div [flex="1"] {
+#search > div [flex="1"] {
   flex: 1;
 }
 #search [data-id="category"] {
@@ -83,10 +93,10 @@ body[data-mode=empty] #results tbody::before {
   font-style: italic;
 }
 #results tr {
-  background: #F6F1EE;
+  background: #f6f1ee;
 }
 #results tr:nth-child(even) {
-  background: #F6F1EE;
+  background: #f6f1ee;
 }
 #results th {
   font-size: 12px;
@@ -97,7 +107,7 @@ body[data-mode=empty] #results tbody::before {
   border: 1px solid #fff;
 }
 #results thead th {
-  background-color: #D2B9A6;
+  background-color: #d2b9a6;
 }
 #results td:nth-child(2) {
   text-align: center;

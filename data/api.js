@@ -34,9 +34,38 @@ Engine.prototype.getProxyList = function() {
     const parser = new DOMParser();
     return parser.parseFromString(content, 'text/html');
   }).then(doc => {
-    return [...doc.querySelectorAll('img[alt="up"]')]
-      .map(e => e.closest('tr').querySelector('a[rel="nofollow"]'))
-      .map(a => a.href);
+    const list = new Set();
+    // method 1
+    for (const e of [...doc.querySelectorAll('.site a')]) {
+      list.add(e.href);
+    }
+    // method 2
+    for (const e of [...doc.querySelectorAll('img[alt="up"]')]) {
+      const a = e.closest('tr').querySelector('a[rel="nofollow"],a[rel="dofollow"]');
+      if (a) {
+        list.add(a.href);
+      }
+    }
+    // backup plan!
+    if (list.size === 0) {
+      console.warn('Using offline Proxy List!');
+      list.add('https://proxifiedpiratebay.org/?h=d');
+      list.add('https://unlockedpiratebay.com/?h=d');
+      list.add('https://tpb.one/?h=d');
+      list.add('https://piratebayorg.net/?h=d');
+      list.add('https://tpbproxy.click/?h=d');
+      list.add('https://tpb.one/?h=d');
+      list.add('https://proxifiedpiratebay.org/?h=d');
+      list.add('https://unlockedpiratebay.com/?h=d');
+      list.add('https://piratebayorg.net/?h=d');
+      list.add('https://tpbproxy.click/?h=d');
+      list.add('https://tpb.one/?h=d');
+      list.add('https://proxifiedpiratebay.org/?h=d');
+      list.add('https://unlockedpiratebay.com/?h=d');
+      list.add('https://piratebayorg.net/?h=d');
+    }
+
+    return [...list];
   });
 };
 Engine.prototype.health = function(href) {

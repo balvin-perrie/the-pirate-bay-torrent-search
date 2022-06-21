@@ -1,4 +1,4 @@
-/* globals Engine */
+/* global Engine */
 'use strict';
 
 const toast = msg => {

@@ -9,7 +9,10 @@
   <header id="search">
     <form>
       <input type="search" required autofocus placeholder="search query" autocomplete id="searchbox">
-      <input type="submit" value="">
+      <div id="tools">
+        <input type="button" value="Rate Me" id="rate" data-hide=true>
+        <input type="submit" value="">
+      </div>
     </form>
     <div>
       <div flex="1">
@@ -135,5 +138,6 @@
   <script src="../api.js"></script>
   <script src="index.js"></script>
   <script defer src="persist.js"></script>
+  <script defer src="rate.js"></script>
 </body>
 </html>

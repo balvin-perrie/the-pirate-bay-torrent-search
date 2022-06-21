@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search for torrents using the official \"The Pirate Bay\" engine on a live ProxyBay mirror without visiting its page.",
   "homepage_url": "https://add0n.com/torrent-search.html",
