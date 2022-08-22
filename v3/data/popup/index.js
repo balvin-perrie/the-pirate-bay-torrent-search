@@ -46,34 +46,47 @@ search.submit = async query => {
       search.log(`Checking permission for "${base}"`);
       if (await search.permission(base)) {
         search.log(`Checking availability for "${base}"`);
-        if (await search.engine.health(base)) {
-          const categories = [...document.querySelectorAll('#search input[name=category]:checked')].map(e => e.value);
-          const category = document.querySelector('#search select[data-id=category]').value;
-          const orderBy = document.querySelector('#search select[data-id=order]').value;
-          const sortBy = document.querySelector('#search select[data-id=sort]').value;
-          try {
-            let results = await search.engine.api(base, query, categories, category, orderBy, sortBy);
-            if (results.length === 0) {
-              results = await search.engine.fetch(base, query, categories, category, orderBy, sortBy);
-            }
-            results = results.filter(o => o['info_hash'] && o['info_hash'] !== '0000000000000000000000000000000000000000');
 
-            if (results.length === 0 && retries < 3) {
-              retries += 1;
-            }
-            else {
-              search.log(`Number of results: ${results.length}`);
-              document.querySelector('base').href = base;
-              return search.show(results);
-            }
+        const categories = [...document.querySelectorAll('#search input[name=category]:checked')].map(e => e.value);
+        const category = document.querySelector('#search select[data-id=category]').value;
+        const orderBy = document.querySelector('#search select[data-id=order]').value;
+        const sortBy = document.querySelector('#search select[data-id=sort]').value;
+        let results = [];
+
+        try {
+          const ar = await search.engine.api(base, query, categories, category, orderBy, sortBy);
+          results.push(...ar);
+        }
+        catch (e) {}
+        if (results.length === 0) {
+          try {
+            const ar = await search.engine.fetch(base, query, categories, category, orderBy, sortBy);
+            results.push(...ar);
           }
-          catch (e) {
-            console.warn('Error', e);
+          catch (e) {}
+        }
+        results = results.filter(o => o && o['info_hash'] && o['info_hash'] !== '0000000000000000000000000000000000000000');
+        if (results.length === 0 && retries < 3) {
+          retries += 1;
+        }
+        else {
+          search.log(`Number of results: ${results.length}`);
+
+          if (base.includes('apibay.org')) {
+            document.querySelector('base').href = 'https://thepiratebay.org/';
           }
+          else {
+            document.querySelector('base').href = base;
+          }
+
+          return search.show(results);
         }
       }
+      else {
+        console.info('Permission Issue', base);
+      }
     }
-    console.log('Failed');
+    console.info('Failed');
     search.show([]);
   }
   catch (e) {

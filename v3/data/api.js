@@ -3,7 +3,8 @@
 const Engine = function() {
   this.events = {};
   this.config = {
-    proxy: 'https://proxybay.github.io/'
+    proxy: 'https://piratebayproxy.info/'
+    // proxy: 'https://proxybay.github.io/'
   };
   this.orderBy = {
     name: {
@@ -46,33 +47,21 @@ Engine.prototype.getProxyList = function() {
         list.add(a.href);
       }
     }
-    // backup plan!
-    if (list.size === 0) {
-      console.warn('Using offline Proxy List!');
-      list.add('https://proxifiedpiratebay.org/?h=d');
-      list.add('https://unlockedpiratebay.com/?h=d');
-      list.add('https://tpb.one/?h=d');
-      list.add('https://piratebayorg.net/?h=d');
-      list.add('https://tpbproxy.click/?h=d');
-      list.add('https://tpb.one/?h=d');
-      list.add('https://proxifiedpiratebay.org/?h=d');
-      list.add('https://unlockedpiratebay.com/?h=d');
-      list.add('https://piratebayorg.net/?h=d');
-      list.add('https://tpbproxy.click/?h=d');
-      list.add('https://tpb.one/?h=d');
-      list.add('https://proxifiedpiratebay.org/?h=d');
-      list.add('https://unlockedpiratebay.com/?h=d');
-      list.add('https://piratebayorg.net/?h=d');
-    }
+    // backup plan -> official API
+    list.add('https://apibay.org/');
+    // backup plan -> misc
+    list.add('https://thepiratebay0.org/');
+    list.add('https://piratebay.party/');
+    list.add('https://piratebayproxy.live/');
+    list.add('https://thepiratebay10.org/');
+    list.add('https://pirateproxy.live/');
+    list.add('https://thehiddenbay.com/');
+    list.add('https://piratebay.live/');
+    list.add('https://thepiratebay.zone/');
+    list.add('https://tpb.party/');
+    list.add('https://thepiratebay.party/');
 
     return [...list];
-  });
-};
-Engine.prototype.health = function(href) {
-  const controller = this.controller = new AbortController();
-  return fetch(href).then(r => {
-    controller.abort();
-    return r.ok;
   });
 };
 Engine.prototype.abort = function() {
@@ -81,27 +70,39 @@ Engine.prototype.abort = function() {
   }
 };
 Engine.prototype.api = function(base, query, categoris, category, orderBy, sortBy, page = 0) {
-  let url = base + 'api.php?url=/q.php?q=' + encodeURIComponent(query) +
-    '&category=' + category +
-    '&page=' + page +
-    '&orderby=' + this.orderBy[orderBy][sortBy];
-  if (categoris.length) {
-    url += '&' + categoris.map(c => c + '=on').join('&');
-  }
+  const urls = [
+    base + 'q.php?q=' + encodeURIComponent(query),
+    base + 'api.php?url=/q.php?q=' + encodeURIComponent(query)
+  ].map(s => {
+    s +=
+      '&category=' + category +
+      '&page=' + page +
+      '&orderby=' + this.orderBy[orderBy][sortBy];
+    if (categoris.length) {
+      s += '&' + categoris.map(c => c + '=on').join('&');
+    }
+
+    return s;
+  });
 
   this.controller = new AbortController();
   const signal = this.controller.signal;
 
-  return fetch(url, {
+  const get = url => fetch(url, {
     cache: 'no-store',
     credentials: 'omit',
     signal
   }).then(r => {
     if (r.ok) {
+      if (r.url.includes('index.html')) {
+        throw Error('redirected to homepage');
+      }
       return r.json();
     }
     throw Error('cannot fetch');
-  }).then(json => {
+  });
+
+  return Promise.any(urls.map(get)).then(json => {
     function size(size, f) {
       const round = (x, precision) => {
         const y = +x + (precision === undefined ? 0.5 : precision / 2);
@@ -127,6 +128,7 @@ Engine.prototype.api = function(base, query, categoris, category, orderBy, sortB
     return json.map(o => {
       const d = new Date(Number(o.added) * 1000);
 
+      o.uploader = o.uploader || o.username;
       return {
         ...o,
         uploadDate: d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).substr(-2) + '-' + ('0' + (d.getDay() + 1)).substr(-2),
@@ -137,53 +139,73 @@ Engine.prototype.api = function(base, query, categoris, category, orderBy, sortB
     });
   });
 };
+// https://thepiratebay.party/s/?q=friends&page=0&orderby=99
+// https://thepiratebay.org/search.php?q=friends&all=on&search=Pirate+Search&page=0&orderby=
 Engine.prototype.fetch = function(base, query, categoris, category, orderBy, sortBy, page = 0) {
-  let url = base + 'search.php?q=' + encodeURIComponent(query) +
-    '&category=' + category +
-    '&page=' + page +
-    '&orderby=' + this.orderBy[orderBy][sortBy];
-  if (categoris.length) {
-    url += '&' + categoris.map(c => c + '=on').join('&');
-  }
+  const urls = [
+    base + 'search.php?q=' + encodeURIComponent(query),
+    base + 's/?q=' + encodeURIComponent(query)
+  ].map(s => {
+    s += '&category=' + category + '&page=' + page + '&orderby=' + this.orderBy[orderBy][sortBy];
+    if (categoris.length) {
+      s += '&' + categoris.map(c => c + '=on').join('&');
+    }
+    return s;
+  });
 
   this.controller = new AbortController();
   const signal = this.controller.signal;
 
-  return fetch(url, {
+  const get = url => fetch(url, {
     cache: 'no-store',
     credentials: 'omit',
     signal
   }).then(r => {
     if (r.ok) {
+      if (r.url.includes('index.html')) {
+        throw Error('redirected to homepage');
+      }
       return r.text();
     }
     throw Error('cannot fetch');
-  }).then(content => {
+  });
+
+  return Promise.any(urls.map(get)).then(content => {
     const parser = new DOMParser();
     return parser.parseFromString(content, 'text/html');
   }).then(doc => {
-    return [...doc.querySelectorAll('#searchResult tbody tr')].map(tr => {
-      const relativeLink = tr.querySelector('div.detName a').getAttribute('href');
+    return [...doc.querySelectorAll('#searchResult tbody tr')].filter(tr => tr.querySelector('.vertTh')).map(tr => {
+      try {
+        const a = tr.querySelector('div.detName a') || tr.querySelector('td:nth-child(2) a');
 
-      const isTorrentVerified = ['VIP', 'Trusted'].indexOf((
-        tr.querySelector('img[title="VIP"]') ||
-        tr.querySelector('img[title="Trusted"]') || doc.body
-      ).getAttribute('title'));
+        const relativeLink = a.getAttribute('href');
 
-      const uploaderLink = tr.querySelector('font a');
+        const isTorrentVerified = ['VIP', 'Trusted'].indexOf((
+          tr.querySelector('img[title="VIP"]') ||
+          tr.querySelector('img[title="Trusted"]') || doc.body
+        ).getAttribute('title'));
 
-      return {
-        name: tr.querySelector('a.detLink').textContent,
-        uploadDate: tr.querySelector('font').textContent.match(/Uploaded\s(?:<b>)?(.+?)(?:<\/b>)?,/)[1],
-        size: tr.querySelector('font').textContent.match(/Size (.+?),/)[1],
-        seeders: tr.querySelector('td[align="right"]').textContent,
-        leechers: tr.querySelector('td[align="right"]:last-child').textContent,
-        relativeLink,
-        magnetLink: tr.querySelector('a[href^="magnet:?"]').getAttribute('href'),
-        uploader: uploaderLink ? uploaderLink.textContent : '',
-        uploaderLink: uploaderLink ? uploaderLink.getAttribute('href') : '',
-        isTorrentVerified
-      };
+        const uploaderLink = tr.querySelector('font a');
+        const magnetLink = tr.querySelector('a[href^="magnet:?"]').getAttribute('href');
+
+        return {
+          name: tr.querySelector('a.detLink').textContent,
+          uploadDate: tr.querySelector('font').textContent.match(/Uploaded\s(?:<b>)?(.+?)(?:<\/b>)?,/)[1],
+          size: tr.querySelector('font').textContent.match(/Size (.+?),/)[1],
+          seeders: tr.querySelector('td[align="right"]').textContent,
+          leechers: tr.querySelector('td[align="right"]:last-child').textContent,
+          relativeLink,
+          magnetLink,
+          uploader: uploaderLink ? uploaderLink.textContent : '',
+          uploaderLink: uploaderLink ? uploaderLink.getAttribute('href') : '',
+          isTorrentVerified,
+          info_hash: magnetLink.split('btih:')[1]?.split('&')[0]
+        };
+      }
+      catch (e) {
+        console.warn('Failed to get entry', e);
+        return;
+      }
     });
   });
 };
