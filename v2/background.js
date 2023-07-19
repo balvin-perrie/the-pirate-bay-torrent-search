@@ -1,21 +1,3 @@
-chrome.runtime.onMessage.addListener((request, sender, response) => {
-  if (request.method === 'check-permission') {
-    chrome.permissions.contains({
-      origins: [request.url]
-    }, response);
-
-    return true;
-  }
-  else if (request.method === 'get-resource') {
-    fetch(request.url).then(r => {
-      if (r.ok) {
-        r.text().then(response);
-      }
-    });
-    return true;
-  }
-});
-
 /* FAQs & Feedback */
 {
   const {management, runtime: {onInstalled, setUninstallURL, getManifest}, storage, tabs} = chrome;

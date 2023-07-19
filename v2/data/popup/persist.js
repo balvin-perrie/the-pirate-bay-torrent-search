@@ -14,6 +14,7 @@ document.addEventListener('change', ({target}) => {
 });
 Object.entries(localStorage).forEach(([key, value]) => {
   const e = document.querySelector(`[data-id="${key.replace('persist:', '')}"]`);
+  console.log(e, key, value);
   if (e && value === 'true') {
     e.checked = true;
   }
