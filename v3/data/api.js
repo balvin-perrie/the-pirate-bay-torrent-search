@@ -13,6 +13,7 @@ class BasicEvent {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 class Engine extends BasicEvent {
   static size(size, f) {
     const round = (x, precision) => {
@@ -38,6 +39,7 @@ class Engine extends BasicEvent {
 
     this.config = {
       proxy: 'https://piratebayproxy.info/'
+      // proxy: 'https://corsproxy.io/?' + encodeURIComponent('https://piratebayproxy.info/')
       // proxy: 'https://proxybay.github.io/'
     };
     this.orderBy = {
@@ -85,16 +87,18 @@ class Engine extends BasicEvent {
     // backup plan -> official API
     list.add('https://apibay.org/');
     // backup plan -> misc
+    list.add('https://thepiratebay10.info/');
+    list.add('https://thepiratebay7.com/');
     list.add('https://thepiratebay0.org/');
-    list.add('https://piratebay.party/');
-    list.add('https://piratebayproxy.live/');
     list.add('https://thepiratebay10.org/');
-    list.add('https://pirateproxy.live/');
     list.add('https://thehiddenbay.com/');
     list.add('https://piratebay.live/');
     list.add('https://thepiratebay.zone/');
     list.add('https://tpb.party/');
     list.add('https://thepiratebay.party/');
+    list.add('https://piratebay.party/');
+    list.add('https://piratebayproxy.live/');
+    list.add('https://pirateproxylive.org/');
 
     return [...list];
   }
