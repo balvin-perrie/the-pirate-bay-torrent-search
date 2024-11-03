@@ -90,7 +90,6 @@ class Engine extends BasicEvent {
     list.add('https://thepiratebay10.info/');
     list.add('https://thepiratebay7.com/');
     list.add('https://thepiratebay0.org/');
-    list.add('https://thepiratebay10.org/');
     list.add('https://thehiddenbay.com/');
     list.add('https://piratebay.live/');
     list.add('https://thepiratebay.zone/');
@@ -99,6 +98,7 @@ class Engine extends BasicEvent {
     list.add('https://piratebay.party/');
     list.add('https://piratebayproxy.live/');
     list.add('https://pirateproxylive.org/');
+    list.add('https://thepiratebay10.xyz/');
 
     return [...list];
   }
@@ -183,6 +183,7 @@ class Engine extends BasicEvent {
         if (r.url.includes('index.html')) {
           throw Error('redirected to homepage');
         }
+
         return r.text();
       }
       throw Error('cannot fetch');
@@ -195,30 +196,54 @@ class Engine extends BasicEvent {
       return [...doc.querySelectorAll('#searchResult tbody tr')].filter(tr => tr.querySelector('.vertTh')).map(tr => {
         try {
           const a = tr.querySelector('div.detName a') || tr.querySelector('td:nth-child(2) a');
-
           const relativeLink = a.getAttribute('href');
+          const name = a.textContent;
 
           const isTorrentVerified = ['VIP', 'Trusted'].indexOf((
             tr.querySelector('img[title="VIP"]') ||
             tr.querySelector('img[title="Trusted"]') || doc.body
           ).getAttribute('title'));
 
-          const uploaderLink = tr.querySelector('font a');
           const magnetLink = tr.querySelector('a[href^="magnet:?"]').getAttribute('href');
 
-          return {
-            name: tr.querySelector('a.detLink').textContent,
-            uploadDate: tr.querySelector('font').textContent.match(/Uploaded\s(?:<b>)?(.+?)(?:<\/b>)?,/)[1],
-            size: tr.querySelector('font').textContent.match(/Size (.+?),/)[1],
-            seeders: tr.querySelector('td[align="right"]').textContent,
-            leechers: tr.querySelector('td[align="right"]:last-child').textContent,
+
+          const r = {
+            name,
             relativeLink,
             magnetLink,
-            uploader: uploaderLink ? uploaderLink.textContent : '',
-            uploaderLink: uploaderLink ? uploaderLink.getAttribute('href') : '',
             isTorrentVerified,
             info_hash: magnetLink.split('btih:')[1]?.split('&')[0]
           };
+
+          // e.g. https://tpb.party/search/debian/1/99/0
+          if (tr.querySelector('font')) {
+            const uploaderLink = tr.querySelector('font a');
+
+            return {
+              ...r,
+              uploadDate: tr.querySelector('font').textContent.match(/Uploaded\s(?:<b>)?(.+?)(?:<\/b>)?,/)[1],
+              size: tr.querySelector('font').textContent.match(/Size (.+?),/)[1],
+              seeders: tr.querySelector('td[align="right"]').textContent,
+              leechers: tr.querySelector('td[align="right"]:last-child').textContent,
+
+              uploader: uploaderLink ? uploaderLink.textContent : '',
+              uploaderLink: uploaderLink ? uploaderLink.getAttribute('href') : ''
+            };
+          }
+          // e.g. https://thepiratebay10.info/search/debian/1/99/0
+          else {
+            const uploaderLink = tr.querySelector('td:last-of-type a');
+
+            return {
+              ...r,
+              uploadDate: tr.querySelector('td:nth-child(3)').textContent,
+              size: tr.querySelector('td:nth-child(5)').textContent,
+              seeders: tr.querySelector('td:nth-child(6)').textContent,
+              leechers: tr.querySelector('td:nth-child(7)').textContent,
+              uploader: uploaderLink ? uploaderLink.textContent : '',
+              uploaderLink: uploaderLink ? uploaderLink.getAttribute('href') : ''
+            };
+          }
         }
         catch (e) {
           console.warn('Failed to get entry', e);

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.2.5",
+  "version": "0.2.6",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search for torrents using the official \"The Pirate Bay\" engine on a live ProxyBay mirror without visiting its page.",
   "homepage_url": "https://webextension.org/listing/torrent-search.html",
@@ -23,9 +23,16 @@
     "default_popup": "/data/popup/index.html"
   },
   "background": {
-    "service_worker": "worker.js"
+    "service_worker": "worker.js",
+    "scripts": ["worker.js"]
   },
   "commands": {
     "_execute_action": {}
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{682b93a2-cb50-4363-8682-334b590efd71}",
+      "strict_min_version": "128.0"
+    }
   }
 }

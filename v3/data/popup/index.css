@@ -31,7 +31,7 @@ select {
 #search select {
   outline: none;
 }
-#search input[type=search] {
+#search input[type="search"] {
   border: none;
   height: 32px;
   width: 100%;
@@ -39,8 +39,7 @@ select {
   padding: 0 8px;
   border-radius: 2px 0 0 2px;
 }
-
-#search input[type=submit] {
+#search input[type="submit"] {
   background: url('images/search.svg') center center no-repeat;
   background-size: 24px;
   border: none;
@@ -49,7 +48,7 @@ select {
   height: 32px;
   cursor: pointer;
 }
-#search input[type=submit]:active {
+#search input[type="submit"]:active {
   opacity: 0.5;
 }
 #search label {
@@ -57,25 +56,22 @@ select {
   align-items: center;
   gap: 2px;
 }
-
 #rate {
   border: none;
   background-color: #fff;
   cursor: pointer;
   font-size: 12px;
 }
-#rate[data-hide=true] {
+#rate[data-hide="true"] {
   display: none;
 }
 #tools {
   white-space: nowrap;
   display: flex;
 }
-
-body[data-mode=busy] #search input[type=submit] {
+body[data-mode="busy"] #search input[type="submit"] {
   background-image: url('images/loader.gif');
 }
-
 #search > div {
   padding: 10px;
   display: flex;
@@ -100,13 +96,13 @@ tbody::before {
   line-height: 32px;
   padding-left: 10px;
 }
-body[data-mode=ready] #results tbody::before {
+body[data-mode="ready"] #results tbody::before {
   content: 'Ready!';
 }
-body[data-mode=busy] #results tbody::before {
+body[data-mode="busy"] #results tbody::before {
   content: 'Searching ...';
 }
-body[data-mode=empty] #results tbody::before {
+body[data-mode="empty"] #results tbody::before {
   content: 'No results';
   color: #5d5d5d;
   font-style: italic;
@@ -161,7 +157,6 @@ footer {
   padding: 8px 10px;
   border-top: solid 1px #d2b9a6;
 }
-
 #toast {
   position: absolute;
   bottom: 10px;
