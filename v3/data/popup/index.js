@@ -1,13 +1,11 @@
 /* global Engine */
 'use strict';
 
-const toast = msg => {
+const toast = (msg, timeout = 3000) => {
   const e = document.getElementById('toast');
   e.textContent = msg;
   clearTimeout(toast.id);
-  toast.id = setTimeout(() => {
-    e.textContent = '';
-  }, 1000);
+  toast.id = setTimeout(() => e.textContent = '', timeout);
 };
 
 const search = {};
@@ -21,15 +19,15 @@ search.abort = (passive = false) => {
     document.body.dataset.mode = 'ready';
   }
 };
-search.log = (() => {
+{
   const footer = document.querySelector('footer');
-  return msg => {
+  search.log = msg => {
     footer.textContent = msg;
   };
-})();
-search.permission = origins => new Promise(resolve => chrome.permissions.request({
+}
+search.permission = origins => chrome.permissions.request({
   origins
-}, resolve));
+});
 search.submit = async query => {
   search.abort();
   let retries = 0;

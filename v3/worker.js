@@ -9,9 +9,12 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
   else if (request.method === 'get-resource') {
     fetch(request.url).then(r => {
       if (r.ok) {
-        r.text().then(response);
+        return r.text().then(content => response({content}));
       }
-    });
+      throw Error('NOT_OK');
+    }).catch(e => response({
+      error: e.message
+    }));
     return true;
   }
 });
