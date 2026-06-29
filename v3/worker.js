@@ -12,9 +12,12 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
         return r.text().then(content => response({content}));
       }
       throw Error('NOT_OK');
-    }).catch(e => response({
-      error: e.message
-    }));
+    }).catch(e => {
+      console.error(e);
+      response({
+        error: e.message
+      });
+    });
     return true;
   }
 });

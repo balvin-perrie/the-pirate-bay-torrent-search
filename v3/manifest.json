@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.2.7",
+  "version": "0.2.8",
   "name": "The Pirate Bay Torrent Search",
   "description": "Search for torrents using the official \"The Pirate Bay\" engine on a live ProxyBay mirror without visiting its page.",
   "homepage_url": "https://webextension.org/listing/torrent-search.html",
@@ -11,16 +11,16 @@
     "*://*/*"
   ],
   "icons": {
-     "16": "/data/icons/16.png",
-     "32": "/data/icons/32.png",
-     "48": "/data/icons/48.png",
-     "64": "/data/icons/64.png",
-     "128": "/data/icons/128.png",
-     "256": "/data/icons/256.png",
-     "512": "/data/icons/512.png"
+     "16": "data/icons/16.png",
+     "32": "data/icons/32.png",
+     "48": "data/icons/48.png",
+     "64": "data/icons/64.png",
+     "128": "data/icons/128.png",
+     "256": "data/icons/256.png",
+     "512": "data/icons/512.png"
   },
   "action": {
-    "default_popup": "/data/popup/index.html"
+    "default_popup": "data/popup/index.html"
   },
   "background": {
     "service_worker": "worker.js",
@@ -32,7 +32,10 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "{682b93a2-cb50-4363-8682-334b590efd71}",
-      "strict_min_version": "128.0"
+      "strict_min_version": "148.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }

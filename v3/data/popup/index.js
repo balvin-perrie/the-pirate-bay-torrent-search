@@ -39,8 +39,10 @@ search.submit = async query => {
 
     if (list.length) {
       search.log(`Checking permission for providers...`);
-      console.log(list);
-      await search.permission(list);
+      try { // Firefox
+        await search.permission(list);
+      }
+      catch (e) {}
     }
 
     search.aborted = false;
@@ -69,7 +71,8 @@ search.submit = async query => {
         }
         catch (e) {}
       }
-      results = results.filter(o => o && o['info_hash'] && o['info_hash'] !== '0000000000000000000000000000000000000000');
+      results = results.filter(o => o && o['info_hash'] &&
+          o['info_hash'] !== '0000000000000000000000000000000000000000');
       if (results.length === 0 && retries < 3) {
         retries += 1;
       }
